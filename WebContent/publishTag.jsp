@@ -32,19 +32,36 @@
 	</c:choose>
 	
 	<h1>PUBHUB <small>tag to publish</small></h1>
+	
+	<hr class="tag-primary">
 <!-- 	this enctype is file upload control. InputType must be a file for this -->
 <!-- 	to support this enctype, the servlet uses Multipart config  -->
-	<form action = "PublishTag" method = "post" class = "form-horizantal" enctype = "multipart/form-data"
+	<form action = "PublishTag" method = "post" class = "form-horizantal" enctype = "multipart/form-data">
 	<div class = "form-group">
 	<label for = "tagName" class ="col-sm-4 control-label">Tag name</label>
 	<div class="col-sm-5">
-	<input type="text" class="form-control" id="tagName" name="tagName" placeholder="Tag name" required="required" value="${param.tagName }" />
+	<input type="text" class="form-control" id="tagName" name="tagName" placeholder="Tag name" required="required" value="${param.tagName }"/>
 		</div>
 	</div>
 	
+	<div class ="form-group">
+	<label for = "isbn13" class = "col-sm-4 control-label">ISBN13</label>
+	<div class = "col-sm-5">
+	<input type = "text" class = "form-control" id="isbn13" name="isbn13" placeholder="ISBN13" required ="required" value="${param.isbn13 }" />
+		</div>
+	</div>
+	<div class = "form-group">
+	<label for = "AuthorName" class="col-sm-4 control-label">Author name</label>
+	<div class = "col-sm-5">
+	<input type = "text" class ="form-control" id="AuthorName" placeholder="Author name" required = "required" value ="${param.authorName }" />
+		</div>
+	</div>
+	<div class = "form-group">
+	<label for ="publishDate"
+	</div>
 	
-	
-	
+	<div class = "form-group">
+	<label for= ""
 	</form>
 	
 	
