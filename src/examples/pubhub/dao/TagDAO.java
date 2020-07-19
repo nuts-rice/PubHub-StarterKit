@@ -28,6 +28,7 @@ public interface TagDAO {
     public List<Tag> getAllTags();
     public List<Tag> getTagsByName(String tagName);
     public Tag getTagByName(String tagName);
+    public boolean updateTag(Tag tag);
     
 }
     
