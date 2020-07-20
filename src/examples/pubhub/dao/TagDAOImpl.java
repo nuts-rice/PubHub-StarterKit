@@ -145,20 +145,68 @@ public class TagDAOImpl implements TagDAO {
     // INNER JOIN Books
     //ON Book.Books_tags.isbn13
     
-    @Override
-    public List<Book> retrieveBook2Tag(){
-        List<Book> bookList = null;
+//    @Override
+//    public List<Book> retrieveBook2Tag(){
+//        List<Book> bookList = null;
+//
+//        try{
+//            connection0 = DAOUtilities.getConnection();
+//            String sql = "SELECT * FROM Book_Tags WHERE = ? INNER JOIN Books";
+//        }catch(SQLException e){
+//            e.printStackTrace();
+//        }finally{
+//            closeResources();
+//        }
+//        re
+//    }
+    
+    
+    //TODO: implements for these
 
-        try{
-            connection0 = DAOUtilities.getConnection();
-            String sql = "SELECT * FROM Book_Tags WHERE = ? INNER JOIN Books";
-        }catch(SQLException e){
-            e.printStackTrace();
-        }finally{
-            closeResources();
-        }
-        re
-    }
+	@Override
+	public boolean deleteTag(String tagName) {
+		// TODO Auto-generated method stub
+		public boolean isSucess = false;
+		try {
+			connection0 = DAOUtilities.getConnection();
+			String sql = "DELETE Tags WHERE tagName=?";
+			stmnt = connection0.prepareStatement(sql);
+			
+			stmnt.setString(1, tagName);
+			
+			
+		}
+	}
+
+	@Override
+	public ArrayList<Book> retrieveBook2Tag(Tag tag) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tag> getAllTags() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Tag> getTagsByName(String tagName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Tag getTagByName(String tagName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateTag(Tag tag) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
     // Closing all resources is important, to prevent memory leaks. 
 	// Ideally, you really want to close them in the reverse-order you open them
@@ -180,4 +228,5 @@ public class TagDAOImpl implements TagDAO {
             e.printStackTrace();
         }   
     }
+   
 }

@@ -39,7 +39,7 @@ public class UpdateTagServlet extends HttpServlet{
 		tag0.setPublishDate(LocalDate.now());
 		tag0.setIsbn13(request.getParameter("isbn13"));
 		request.setAttribute("tag", tag0);
-		isSuscess = database.
+		isSuscess = database
 		}
 
 }
