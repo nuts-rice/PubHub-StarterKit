@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,15 +167,26 @@ public class TagDAOImpl implements TagDAO {
 	@Override
 	public boolean deleteTag(String tagName) {
 		// TODO Auto-generated method stub
-		public boolean isSucess = false;
+		
 		try {
 			connection0 = DAOUtilities.getConnection();
-			String sql = "DELETE Tags WHERE tagName=?";
+			String sql = "DELETE Tags WHERE tagName = ?";
 			stmnt = connection0.prepareStatement(sql);
 			
 			stmnt.setString(1, tagName);
-			
-			
+			if (stmnt.executeUpdate() != 0)
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+		finally {
+			closeResources();
 		}
 	}
 
@@ -187,14 +199,41 @@ public class TagDAOImpl implements TagDAO {
 	@Override
 	public List<Tag> getAllTags() {
 		// TODO Auto-generated method stub
-		return null;
+		List<Tag> tags = new ArrayList<>();
+		try {
+			connection0 = DAOUtilities.getConnection();
+			String sql = "SELECT * FROM Tags";
+			stmnt = connection0.prepareStatement(sql);
+			
+			ResultSet rs = stmnt.executeQuery();
+			//so long as ResultSet returns a result 
+			while (rs.next()) {
+				// We need to populate a Tag object with info for each row from our query result
+				Tag tag = new Tag();
+				
+				// Each variable in our Tag object maps to a column in a row from our results.
+				tag.setTagName(rs.getString("tag name"));
+				tag.setIsbn13(rs.getString("isbn13"));
+				tag.setAuthorName(rs.getString("author"));
+				// The SQL DATE datatype maps to java.sql.Date... which isn't well supported anymore. 
+				// We use a LocalDate instead, because this is Java 8.
+				tag.setPublishDate(rs.getDate("publish date").toLocalDate());
+				
+				tags.add(tag);
+				
+			}
+			rs.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+		 closeResources();
+		}
+		
+		return tags;
 	}
 
-	@Override
-	public List<Tag> getTagsByName(String tagName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Tag getTagByName(String tagName) {
