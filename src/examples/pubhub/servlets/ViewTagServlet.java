@@ -28,7 +28,7 @@ import examples.pubhub.utilities.DAOUtilities;
 //our task is now to build the Java Servlets that will direct a user through the application 
 //by serving them new views, and process their data manipulation.
 
-@WebServlet("/ViewTag")
+@WebServlet("/ViewTagDetails")
 public class ViewTagServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

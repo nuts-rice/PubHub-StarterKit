@@ -44,7 +44,7 @@ public class TagDAOImpl implements TagDAO {
 
         try{
             connection0 = DAOUtilities.getConnection(); // Get our database connection from the manager
-            String sqlStr = "INSERT INTO Book_Tags WHERE isbn13 LIKE ? VALUES (?, ?, ? )";    // SQL statement
+            String sqlStr = "INSERT INTO Tags WHERE isbn13 LIKE ? VALUES (?, ?, ? )";    // SQL statement
             	// Note the ? in the query
             stmnt = connection0.prepareStatement(sqlStr); // Creates the prepared statement from the query
 
@@ -86,7 +86,7 @@ public class TagDAOImpl implements TagDAO {
     public boolean removeTag2Book(String isbn13){
         try{
             connection0 = DAOUtilities.getConnection();
-            String sql = "DELETE Book_Tag WHERE isbn_13 = ?";
+            String sql = "DELETE Tags WHERE isbn_13 = ?";
             stmnt = connection0.prepareStatement(sql);
 
             stmnt.setString(1, isbn13);
@@ -115,17 +115,17 @@ public class TagDAOImpl implements TagDAO {
 
         try{
             connection0 = DAOUtilities.getConnection();
-            String sql = "SELECT * FROM Book_tags WHERE = ?";
+            String sql = "SELECT * FROM Tags WHERE = ?";
             stmnt = connection0.prepareStatement(sql);
             stmnt.setString(1, isbn13);
             ResultSet rs = stmnt.executeQuery();
 
             if(rs.next()){
                 Tag tagToAdd = new Tag();
-                tagToAdd.setTagName(rs.getString("tag name"));
-                tagToAdd.setIsbn13(rs.getString("isbn13"));
+                tagToAdd.setTagName(rs.getString("tag_name"));
+                tagToAdd.setIsbn13(rs.getString("isbn_13"));
                 tagToAdd.setAuthorName(rs.getString("author"));
-                tagToAdd.setPublishDate(rs.getDate("publish date").toLocalDate());
+                tagToAdd.setPublishDate(rs.getDate("publish_date").toLocalDate());
                 tagList.add(tagToAdd);
             }
         }catch(SQLException e){
@@ -212,8 +212,8 @@ public class TagDAOImpl implements TagDAO {
 				Tag tag = new Tag();
 				
 				// Each variable in our Tag object maps to a column in a row from our results.
-				tag.setTagName(rs.getString("tag name"));
-				tag.setIsbn13(rs.getString("isbn13"));
+				tag.setTagName(rs.getString("tag_name"));
+				tag.setIsbn13(rs.getString("isbn_13"));
 				tag.setAuthorName(rs.getString("author"));
 				// The SQL DATE datatype maps to java.sql.Date... which isn't well supported anymore. 
 				// We use a LocalDate instead, because this is Java 8.
@@ -238,7 +238,22 @@ public class TagDAOImpl implements TagDAO {
 	@Override
 	public Tag getTagByName(String tagName) {
 		// TODO Auto-generated method stub
-		return null;
+		Tag tempTag = new Tag();
+		try {
+			connection0 = DAOUtilities.getConnection();
+			String sql = "SELECT * FROM Tags WHERE=?";
+			stmnt = connection0.prepareStatement(sql);
+			stmnt.setString(1, tagName);
+			ResultSet rs = stmnt.executeQuery();
+			if(rs.next()) {
+				Tag tag = new Tag();
+				tag.setTagName(rs.getString("tag_name"));
+				tag.setIsbn13(rs.getString("isbn_13"));
+				
+			}
+			
+		
+		}
 	}
 
 	@Override
@@ -267,5 +282,11 @@ public class TagDAOImpl implements TagDAO {
             e.printStackTrace();
         }   
     }
+
+	@Override
+	public boolean deleteTagByISBN(String isbn) {
+		// TODO Auto-generated method stub
+		return false;
+	}
    
 }

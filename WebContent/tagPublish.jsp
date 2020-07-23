@@ -12,7 +12,6 @@
 
 <!-- JSTIL includes -->
 
-	<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -30,6 +29,8 @@
 	%>
 	</c:when>
 	</c:choose>
+	
+	
 	
 	<h1>PUBHUB <small>tag to publish</small></h1>
 	
@@ -56,12 +57,13 @@
 	<input type = "text" class ="form-control" id="AuthorName" placeholder="Author name" required = "required" value ="${param.authorName }" />
 		</div>
 	</div>
-	<div class = "form-group">
-	<label for ="publishDate"
+	 <div class="form-group">
+		<div class="col-sm-offset-4 col-sm-1">
+		<button type="submit" class="btn btn-info">Publish</button>
+	</div>
+	</div>
 	</div>
 	
-	<div class = "form-group">
-	<label for= ""
 	</form>
 	
 	

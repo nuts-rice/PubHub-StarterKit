@@ -33,11 +33,10 @@ public class PublishTagServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("publishTag.jsp").forward(request, response);
+		request.getRequestDispatcher("tagPublish.jsp").forward(request, response);
 		
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		String isbn13 = req.getParameter("isbn13");
 		String tagName0 = req.getParameter("tag name");
 		
 		TagDAO database = DAOUtilities.getTagDAO();
@@ -45,7 +44,7 @@ public class PublishTagServlet extends HttpServlet {
 		if(tempTag != null) {
 			req.setAttribute("message", "This tag:" + " " + tagName0 + " " + "has already been uploaded");
 			req.getSession().setAttribute("messageClass", "alert-danger");
-			req.getRequestDispatcher("publishTag.jsp").forward(req, resp);
+			req.getRequestDispatcher("tagPublish.jsp").forward(req, resp);
 		}
 		else {
 			Tag tag0 = new Tag();
@@ -61,11 +60,11 @@ public class PublishTagServlet extends HttpServlet {
 				req.getSession().setAttribute("message", "Tag successfully published");
 				req.getSession().setAttribute("messageClass", "alert-success");
 				
-				resp.sendRedirect(req.getContextPath() + "/TagPublishing");
+				resp.sendRedirect(req.getContextPath() + "/Publishing");
 			}else {
 				req.getSession().setAttribute("message", "There was a problem publishing the tag");
 				req.getSession().setAttribute("messageClass", "alert-danger");
-				req.getRequestDispatcher("publishTag.jsp").forward(req, resp);
+				req.getRequestDispatcher("tagPublish.jsp").forward(req, resp);
 			}
 			
 		}
