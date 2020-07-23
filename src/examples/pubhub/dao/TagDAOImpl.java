@@ -31,11 +31,13 @@ public class TagDAOImpl implements TagDAO {
     PreparedStatement stmnt = null;
 
 
+//    ---------------------------------------------------
     //A method to add a tag to a book, given the tag name and a reference to a book 
     //(either a Book reference variable or just an ISBN-13)	
 
     //addTag2Book: INSERT INTO Book_Tags
     //(isbn13, tag_name)
+    
     @Override
     public boolean addTag2Book(Tag tag){
         
@@ -76,20 +78,24 @@ public class TagDAOImpl implements TagDAO {
 
         }
         
-    }
+
+//	---------------------------------------------------
+    
+    
     //A method to remove a tag from a book, given the tag name and a reference to a book 
     //(either a Book reference variable or just an ISBN-13)
 
     //removeTag2Book: DELETE FROM Book_Tags
 	//(isbn13, tag_name)
     @Override
-    public boolean removeTag2Book(String isbn13){
+    public boolean removeTag2Book(String isbn13, String tagName){
         try{
             connection0 = DAOUtilities.getConnection();
-            String sql = "DELETE Tags WHERE isbn_13 = ?";
+            String sql = "DELETE Tags WHERE isbn_13 LIKE ? VALUES (?)";
             stmnt = connection0.prepareStatement(sql);
 
             stmnt.setString(1, isbn13);
+            stmnt.setString(2, );
 
             if (stmnt.executeUpdate() != 0){
                 return true;
@@ -106,6 +112,8 @@ public class TagDAOImpl implements TagDAO {
         }
 
     }
+    
+//    ---------------------------------------------------
     //A method to retrieve all tags that have been added to a given book
 
     //retrieveTag2Book: SELECT * FROM Book_tags WHERE (isbn13)
@@ -137,17 +145,10 @@ public class TagDAOImpl implements TagDAO {
         return tagList;
     }
 
-    //A method to retrieve all books that have a given tag. 
-    //Hint: This will require either a SQL JOIN statement or a nested query.
-
-    //retrieveBook2Tag: Select Tag_name,
-    // FROM
-    // Book_tags
-    // INNER JOIN Books
-    //ON Book.Books_tags.isbn13
+//    ---------------------------------------------------
     
 //    @Override
-//    public List<Book> retrieveBook2Tag(){
+//    public ArrayList<Book> retrieveBook2Tag(Tag tag){
 //        List<Book> bookList = null;
 //
 //        try{
@@ -163,7 +164,7 @@ public class TagDAOImpl implements TagDAO {
     
     
     //TODO: implements for these
-
+//    ---------------------------------------------------
 	@Override
 	public boolean deleteTag(String tagName) {
 		// TODO Auto-generated method stub
@@ -184,18 +185,31 @@ public class TagDAOImpl implements TagDAO {
 		}
 			catch(SQLException e) {
 				e.printStackTrace();
+				return false;
 			}
 		finally {
 			closeResources();
 		}
 	}
 
+//	---------------------------------------------------
+	//A method to retrieve all books that have a given tag. 
+    //Hint: This will require either a SQL JOIN statement or a nested query.
+
+    //retrieveBook2Tag: Select Tag_name,
+    // FROM
+    // Book_tags
+    // INNER JOIN Books
+    //ON Book.Books_tags.isbn13
+	
+//	---------------------------------------------------
 	@Override
 	public ArrayList<Book> retrieveBook2Tag(Tag tag) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+//	---------------------------------------------------
 	@Override
 	public List<Tag> getAllTags() {
 		// TODO Auto-generated method stub
@@ -233,7 +247,9 @@ public class TagDAOImpl implements TagDAO {
 		
 		return tags;
 	}
-
+	
+	
+//	---------------------------------------------------
 
 	@Override
 	public Tag getTagByName(String tagName) {
@@ -249,19 +265,57 @@ public class TagDAOImpl implements TagDAO {
 				Tag tag = new Tag();
 				tag.setTagName(rs.getString("tag_name"));
 				tag.setIsbn13(rs.getString("isbn_13"));
+				tag.setAuthorName(rs.getString("author"));
+				tag.setPublishDate(rs.getDate("publish_date").toLocalDate());
 				
 			}
+		}
+			catch(SQLException e){
+				e.printStackTrace();
+			}finally {
+				closeResources();
+			}
+		return tempTag;
 			
 		
 		}
-	}
+
+//	---------------------------------------------------
 
 	@Override
 	public boolean updateTag(Tag tag) {
 		// TODO Auto-generated method stub
-		return false;
+		try {
+			connection0 = DAOUtilities.getConnection();
+			String sql = "UPDATE Tags SET isbn_13=?, author=? WHERE tag_name=?";
+			stmnt = connection0.prepareStatement(sql);
+			stmnt.setString(1, tag.getIsbn13());
+			stmnt.setString(2, tag.getAuthorName());
+			stmnt.setString(3, tag.getTagName());
+			System.out.println(stmnt);
+			if(stmnt.executeUpdate() != 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+		} catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+			
+		}
+		finally {
+			closeResources();
+		}
+		
 	}
 
+	
+//	---------------------------------------------------
     // Closing all resources is important, to prevent memory leaks. 
 	// Ideally, you really want to close them in the reverse-order you open them
     private void closeResources(){
@@ -282,11 +336,15 @@ public class TagDAOImpl implements TagDAO {
             e.printStackTrace();
         }   
     }
+    
+//    ---------------------------------------------------
 
 	@Override
 	public boolean deleteTagByISBN(String isbn) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-   
+	
+
+//	---------------------------------------------------
 }

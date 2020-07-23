@@ -15,7 +15,7 @@ public interface TagDAO {
 	
     public boolean addTag2Book(Tag tag);	//A method to add a tag to a book, given the tag name and a reference to a book 
         //(either a Book reference variable or just an ISBN-13)	
-    public boolean removeTag2Book(String isbn13);
+    public boolean removeTag2Book(String isbn13, String tagName);
     public boolean deleteTagByISBN(String isbn);	//A method to remove a tag from a book, given the tag name and a reference to a book 
         //(either a Book reference variable or just an ISBN-13)
 
